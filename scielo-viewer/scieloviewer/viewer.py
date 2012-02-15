@@ -2,8 +2,14 @@
 
 import urllib2
 
-class MetadataHarvester(object):
+class Viewer(object):
 
-    def __init__(self,request,url=None):
+    def get_client_metadata(self, url, obj_urllib2=urllib2):
 
-        _tmp = ""
+        try:
+            urllib2_instance = obj_urllib2()
+            json_string = urllib2_instance.urlopen(url)
+        except urllib2.URLError:
+            return None
+        else:
+            return json_string
