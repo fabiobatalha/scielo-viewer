@@ -4,7 +4,7 @@ import unittest
 import urllib2
 from pyramid import testing
 
-from .viewer import Viewer
+from .viewer import LoadService
 
 
 class DummyFile(object):
@@ -46,7 +46,7 @@ class Dummyurllib2(object):
 """
 VIEWER TestCase
 """
-class ViewerTests(unittest.TestCase):
+class LoadServiceTests(unittest.TestCase):
     def setUp(self):
         self.config = testing.setUp()
     
@@ -56,23 +56,24 @@ class ViewerTests(unittest.TestCase):
     def test_get_client_metadata(self):
         request = testing.DummyRequest()
         
-        viewer_instance = Viewer()
-        
         dummy_urllib2 = Dummyurllib2()
         dummy_metadata = dummy_urllib2.urlopen("http://www.scielo.br").read()
 
         """
         Valid Response
         """
-        metadata = viewer_instance.get_client_metadata("http://www.scielo.br",dummy_urllib2)
+        load_service_instance = LoadService("http://www.scielo.br",dummy_urllib2)
+        metadata = load_service_instance.get_client_metadata()
         self.assertEqual(dummy_metadata, metadata)
 
         """
-        Raise URL Error return None
+        URL Error return None
         """
-        metadata = viewer_instance.get_client_metadata("http://www.scielo.b",dummy_urllib2)
-        #self.assertRaises(urllib2.URLError)
+        load_service_instance = LoadService("http://www.scielo.b",dummy_urllib2)
+        metadata = load_service_instance.get_client_metadata()
         self.assertEqual(None, metadata)
+
+    #def test_validate_metadata(self):
 
 
 
