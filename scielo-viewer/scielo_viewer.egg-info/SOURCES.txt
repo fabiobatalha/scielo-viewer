@@ -14,6 +14,7 @@ scielo_viewer.egg-info/requires.txt
 scielo_viewer.egg-info/top_level.txt
 scieloviewer/__init__.py
 scieloviewer/tests.py
+scieloviewer/viewer.py
 scieloviewer/views.py
 scieloviewer/static/favicon.ico
 scieloviewer/static/footerbg.png
@@ -24,4 +25,5 @@ scieloviewer/static/pylons.css
 scieloviewer/static/pyramid-small.png
 scieloviewer/static/pyramid.png
 scieloviewer/static/transparent.gif
-scieloviewer/templates/mytemplate.pt
+scieloviewer/templates/home.pt
+scieloviewer/templates/metadata_delivery.pt
