@@ -1,8 +1,20 @@
 # coding: utf-8
 
 import urllib2
+import urlparse
+import json
 
-#class Viewer(object):
+class InvalidSource(Exception):
+    def __init__(self, *args):
+        super(InvalidSource, self).__init__(*args)
+
+class UnauthorizedParameters(Exception):
+    def __init__(self, *args):
+        super(UnauthorizedParameters, self).__init__(*args)
+
+class InvalidData(Exception):
+    def __init__(self, *args):
+        super(InvalidData, self).__init__(*args)
 
 
 class LoadService(object):
@@ -12,12 +24,32 @@ class LoadService(object):
 
     def get_client_metadata(self):
         try:
-            json_string = self._obj_urllib2.urlopen(self._url).read()
+            url_file_data = self._obj_urllib2.urlopen(self._url)
         except urllib2.URLError:
-            return None
+            raise InvalidSource("Invalid URL: {}".format(_url))
+        
+        return url_file_data
 
-        return json_string
+    def delivery_metadata(self):
+        """
+        Convert Services Response into JSON Object
+        """
 
-    def validate_metadata(self, metadata):
+        metadata = json.load(self.get_client_metadata())
+
+        return metadata
+
+    def validate_metadata(self):
+        """
+        Validate Mandatory fields that must be delivered, and not allowed parameters
+        """
+        metadata = self.get_client_metadata()
 
         return True
+
+#class ViewerHandler(object):
+
+    #def __init__(self):
+        #self._metadata = {}
+
+    #def prepare_metadata(self):
